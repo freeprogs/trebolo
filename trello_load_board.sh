@@ -64,10 +64,57 @@ help_info()
 load_trello_board()
 {
     local url=$1
-    local outdir=$2
-    local cookiefile=$3
+    local odname=$2
+    local ifname_cookie=$3
+    local ofname
+    local ifname_attach
+    local odname_attach
 
-    echo "load_trello_board() $url $outdir $cookiefile"
+    ofname="${odname}.json"
+    ifname_attach=$ofname
+    odname_attach=$odname
+
+    make_output_directory "$odname" || {
+        error "Can't make output directory $odname"
+        return 1
+    }
+    load_trello_board_json "$url" "$odname/$ofname" "$ifname_cookie" || {
+        error "Can't load $url to $odname/$ofname with cookie from $ifname_cookie"
+        return 1
+    }
+    load_trello_board_attachments \
+        "$odname/$ifname_attach" \
+        "$odname_attach" \
+        "$ifname_cookie" || {
+        error "Can't load $url to $odname with cookie from $ifname_cookie"
+        return 1
+    }
+    return 0
+}
+
+make_output_directory()
+{
+    local dname=$1
+
+    mkdir "$dname" 2>/dev/null
+}
+
+load_trello_board_json()
+{
+    local url=$1
+    local ofpath=$2
+    local ifname_cookie=$3
+
+    echo "load_trello_board_json() $url $ofpath $ifname_cookie"
+}
+
+load_trello_board_attachments()
+{
+    local ifname_attach=$1
+    local odname=$2
+    local ifname_cookie=$3
+
+    echo "load_trello_board_attachments() $ifname_attach $odname $ifname_cookie"
 }
 
 main()
@@ -105,4 +152,3 @@ main()
 main "$@" || exit 1
 
 exit 0
- 
