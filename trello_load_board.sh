@@ -152,8 +152,45 @@ make_attachments_data()
     local ifname=$1
     local ofname=$2
     local odname=$3
+    local otname_stage1="$ofname.stage1"
 
-    echo "make_attachments_data() $ifname $ofname $odname"
+    cat "$ifname" | python3 -c '
+import sys
+import json
+
+doc = json.loads(sys.stdin.read())
+cards = doc["cards"]
+all_attachments = [i["attachments"] for i in cards
+                   if "attachments" in i and i["attachments"]]
+for attachments in all_attachments:
+    attachments_clean = [i for i in attachments
+                         if "fileName" in i and i["fileName"]]
+    for i in attachments_clean:
+        fileid = i["id"]
+        url = i["url"]
+        filename = i["name"]
+        print(fileid, url, filename)
+'   >"$odname/$otname_stage1"
+
+    cat "$odname/$otname_stage1" | awk '
+{
+    file_id = $1
+    url = $2
+    file_name = $3
+    card_id = get_idcard($2)
+    file_bigname = card_id "_" file_id "_" file_name
+    print url, file_bigname
+}
+
+function get_idcard(url,   i1, i2, out) {
+    i1 = index(url, "/cards/") + length("/cards/")
+    i2 = index(url, "/attachments/")
+    out = substr(url, i1, i2 - i1)
+    return out
+}
+'   >"$odname/$ofname"
+
+    rm -rf "$odname/$otname_stage1"
     return 0
 }
 
