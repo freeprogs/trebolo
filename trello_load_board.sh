@@ -24,10 +24,10 @@ msg()
 # log(file, str)
 log()
 {
-    local ofname="$1"
+    local ofpath="$1"
     local message="$2"
 
-    echo "$message" >>"$ofname"
+    echo "$message" >>"$ofpath"
 }
 
 # Print program usage to stderr
@@ -65,7 +65,7 @@ load_trello_board()
 {
     local url=$1
     local odname=$2
-    local ifname_cookie=$3
+    local ifpath_cookie=$3
     local ofname
     local ifname_attach
     local odname_attach
@@ -79,8 +79,8 @@ load_trello_board()
         return 1
     }
     msg "Download json to $odname/$ofname ..."
-    load_trello_board_json "$url" "$odname/$ofname" "$ifname_cookie" || {
-        error "Can't load $url to $odname/$ofname with cookie from $ifname_cookie"
+    load_trello_board_json "$url" "$odname/$ofname" "$ifpath_cookie" || {
+        error "Can't load $url to $odname/$ofname with cookie from $ifpath_cookie"
         return 1
     }
     msg "Ok"
@@ -88,8 +88,8 @@ load_trello_board()
     load_trello_board_attachments \
         "$odname/$ifname_attach" \
         "$odname_attach" \
-        "$ifname_cookie" || {
-        error "Can't load $url to $odname with cookie from $ifname_cookie"
+        "$ifpath_cookie" || {
+        error "Can't load $url to $odname with cookie from $ifpath_cookie"
         return 1
     }
     msg "Ok"
@@ -107,10 +107,10 @@ load_trello_board_json()
 {
     local url="${1}.json"
     local ofpath=$2
-    local ifname_cookie=$3
+    local ifpath_cookie=$3
     local cookie_data
 
-    cookie_data=`cat "$ifname_cookie"`
+    cookie_data=`cat "$ifpath_cookie"`
     raw_download_board "$url" "$ofpath" "$cookie_data" || return 1
     return 0
 }
@@ -127,16 +127,16 @@ raw_download_board()
 
 load_trello_board_attachments()
 {
-    local ifname_attach=$1
+    local ifpath_attach=$1
     local odname=$2
-    local ifname_cookie=$3
+    local ifpath_cookie=$3
     local ofname_attach_data="attachments_data.tmp"
 
-    make_attachments_data "$ifname_attach" "$odname/$ofname_attach_data" || {
-        error "Can't make attachments data from $ifname_attach"
+    make_attachments_data "$ifpath_attach" "$ofname_attach_data" "$odname" || {
+        error "Can't make attachments data from $ifpath_attach"
         return 1
     }
-    load_from_attachments_data "$odname/$ofname_attach_data" "$odname" || {
+    load_from_attachments_data "$odname/$ofname_attach_data" "$odname" "$ifpath_cookie" || {
         error "Can't load attachments $odname/$ofname_attach_data to $odname"
         return 1
     }
@@ -150,26 +150,28 @@ load_trello_board_attachments()
 make_attachments_data()
 {
     local ifname=$1
-    local ofpath=$2
+    local ofname=$2
+    local odname=$3
 
-    echo "make_attachments_data() $ifname $ofpath"
+    echo "make_attachments_data() $ifname $ofname $odname"
     return 0
 }
 
 load_from_attachments_data()
 {
-    local ifname=$1
+    local ifpath=$1
     local odname=$2
+    local ifpath_cookie=$3
 
-    echo "load_from_attachments_data() $ifname $odname"
+    echo "load_from_attachments_data() $ifpath $odname $ifpath_cookie"
     return 0
 }
 
 remove_attachments_data()
 {
-    local ifname=$1
+    local ifpath=$1
 
-    echo "remove_attachments_data() $ifname"
+    echo "remove_attachments_data() $ifpath"
     return 0
 }
 
