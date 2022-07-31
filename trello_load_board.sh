@@ -199,8 +199,39 @@ load_from_attachments_data()
     local ifpath=$1
     local odname=$2
     local ifpath_cookie=$3
+    local cookie_data
+    local url
+    local ofname
 
-    echo "load_from_attachments_data() $ifpath $odname $ifpath_cookie"
+    cookie_data=`cat "$ifpath_cookie"`
+    cat "$ifpath" | while read line; do
+        url=`echo "$line" | attachments_data_get_field 1`
+        ofname=`echo "$line" | attachments_data_get_field 2`
+        raw_download_attachment \
+            "$url" \
+            "$odname/$ofname" \
+            "$cookie_data" || {
+            error "Can't download attachment from $url"
+            return 1
+        }
+    done
+    return 0
+}
+
+attachments_data_get_field()
+{
+    local field_number=$1
+
+    awk '{print $'"$field_number"';}'
+}
+
+raw_download_attachment()
+{
+    local url=$1
+    local ofpath=$2
+    local cookie_data=$3
+
+    curl -s -b "$cookie_data" -o "$ofpath" "$url" || return 1
     return 0
 }
 
