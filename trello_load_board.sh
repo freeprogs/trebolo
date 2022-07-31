@@ -130,8 +130,46 @@ load_trello_board_attachments()
     local ifname_attach=$1
     local odname=$2
     local ifname_cookie=$3
+    local ofname_attach_data="attachments_data.tmp"
 
-    echo "load_trello_board_attachments() $ifname_attach $odname $ifname_cookie"
+    make_attachments_data "$ifname_attach" "$odname/$ofname_attach_data" || {
+        error "Can't make attachments data from $ifname_attach"
+        return 1
+    }
+    load_from_attachments_data "$odname/$ofname_attach_data" "$odname" || {
+        error "Can't load attachments $odname/$ofname_attach_data to $odname"
+        return 1
+    }
+    remove_attachments_data "$odname/$ofname_attach_data" || {
+        error "Can't remove attachments data $odname/$ofname_attach_data"
+        return 1
+    }
+    return 0
+}
+
+make_attachments_data()
+{
+    local ifname=$1
+    local ofpath=$2
+
+    echo "make_attachments_data() $ifname $ofpath"
+    return 0
+}
+
+load_from_attachments_data()
+{
+    local ifname=$1
+    local odname=$2
+
+    echo "load_from_attachments_data() $ifname $odname"
+    return 0
+}
+
+remove_attachments_data()
+{
+    local ifname=$1
+
+    echo "remove_attachments_data() $ifname"
     return 0
 }
 
