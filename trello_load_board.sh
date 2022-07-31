@@ -240,7 +240,7 @@ remove_attachments_data()
 {
     local ifpath=$1
 
-    echo "remove_attachments_data() $ifpath"
+    rm -rf "$ifpath" || return 1
     return 0
 }
 
