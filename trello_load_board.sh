@@ -170,7 +170,7 @@ for attachments in all_attachments:
         url = i["url"]
         filename = i["name"]
         print(fileid, url, filename)
-'   >"$odname/$otname_stage1"
+'   >"$odname/$otname_stage1" || return 1
 
     cat "$odname/$otname_stage1" | awk '
 {
@@ -188,9 +188,10 @@ function get_idcard(url,   i1, i2, out) {
     out = substr(url, i1, i2 - i1)
     return out
 }
-'   >"$odname/$ofname"
+'   >"$odname/$ofname" || return 1
 
-    rm -rf "$odname/$otname_stage1"
+    rm -rf "$odname/$otname_stage1" || return 1
+
     return 0
 }
 
