@@ -84,6 +84,7 @@ load_trello_board()
         return 1
     }
     msg "Ok"
+    msg "Download attachments to $odname ..."
     load_trello_board_attachments \
         "$odname/$ifname_attach" \
         "$odname_attach" \
@@ -91,6 +92,7 @@ load_trello_board()
         error "Can't load $url to $odname with cookie from $ifname_cookie"
         return 1
     }
+    msg "Ok"
     return 0
 }
 
@@ -113,7 +115,6 @@ load_trello_board_json()
     return 0
 }
 
-
 raw_download_board()
 {
     local url=$1
@@ -131,6 +132,7 @@ load_trello_board_attachments()
     local ifname_cookie=$3
 
     echo "load_trello_board_attachments() $ifname_attach $odname $ifname_cookie"
+    return 0
 }
 
 main()
