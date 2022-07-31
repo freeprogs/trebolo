@@ -78,10 +78,12 @@ load_trello_board()
         error "Can't make output directory $odname"
         return 1
     }
+    msg "Download json to $odname/$ofname ..."
     load_trello_board_json "$url" "$odname/$ofname" "$ifname_cookie" || {
         error "Can't load $url to $odname/$ofname with cookie from $ifname_cookie"
         return 1
     }
+    msg "Ok"
     load_trello_board_attachments \
         "$odname/$ifname_attach" \
         "$odname_attach" \
@@ -101,11 +103,25 @@ make_output_directory()
 
 load_trello_board_json()
 {
-    local url=$1
+    local url="${1}.json"
     local ofpath=$2
     local ifname_cookie=$3
+    local cookie_data
 
-    echo "load_trello_board_json() $url $ofpath $ifname_cookie"
+    cookie_data=`cat "$ifname_cookie"`
+    raw_download_board "$url" "$ofpath" "$cookie_data" || return 1
+    return 0
+}
+
+
+raw_download_board()
+{
+    local url=$1
+    local ofpath=$2
+    local cookie_data=$3
+
+    curl -s -b "$cookie_data" -o "$ofpath" "$url" || return 1
+    return 0
 }
 
 load_trello_board_attachments()
