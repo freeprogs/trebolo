@@ -324,6 +324,13 @@ raw_download_attachment()
     return 0
 }
 
+# Remove the file with attachments information
+# remove_attachments_data(filepath)
+# args:
+#   datafile - The attachment data file with (url, filename) lines
+# return:
+#   0 - If success
+#   1 - If any error
 remove_attachments_data()
 {
     local ifpath=$1
