@@ -163,6 +163,16 @@ raw_download_board()
     return 0
 }
 
+# Load the Trello board attachments by the board JSON-file to the
+# given directory, using the cookie file
+# load_trello_board_attachments(boardfile, outdir, cookiefile)
+# args:
+#   boardfile - The JSON-file of the board from trello.com
+#   outdir - The output directory for attachments
+#   cookiefile - The file with a value for the cookie HTTP-header
+# return:
+#   0 - If success
+#   1 - If any error
 load_trello_board_attachments()
 {
     local ifpath_attach=$1
