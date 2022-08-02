@@ -121,6 +121,16 @@ make_output_directory()
     return 0
 }
 
+# Load the JSON-file of the Trello board to the given output path,
+# using the cookie file
+# load_trello_board_json(boardurl, outpath, cookiefile)
+# args:
+#   boardurl - The url of board on trello.com
+#   outpath - The path for the loaded board JSON-file
+#   cookiefile - The file with a value for the cookie HTTP-header
+# return:
+#   0 - If success
+#   1 - If any error
 load_trello_board_json()
 {
     local url="${1}.json"
