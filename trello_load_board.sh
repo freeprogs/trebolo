@@ -106,6 +106,13 @@ load_trello_board()
     return 0
 }
 
+# Make an output directory
+# make_output_directory(dirname)
+# args:
+#   dirname - A name for the output directory
+# return:
+#   0 - If success
+#   1 - If any error
 make_output_directory()
 {
     local dname=$1
