@@ -255,6 +255,16 @@ function get_idcard(url,   i1, i2, out) {
     return 0
 }
 
+# Load the Trello board attachments by the given attachments data file
+# to the given directory, using the cookie file
+# load_from_attachments_data(datafile, outdir, cookiefile)
+# args:
+#   datafile - The attachment data file with (url, filename) lines
+#   outdir - The output directory for attachments
+#   cookiefile - The file with a value for the cookie HTTP-header
+# return:
+#   0 - If success
+#   1 - If any error
 load_from_attachments_data()
 {
     local ifpath=$1
