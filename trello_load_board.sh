@@ -339,6 +339,16 @@ remove_attachments_data()
     return 0
 }
 
+# Load the given Trello board with attachments on this board to the
+# given output directory, using the cookie file
+# main([url, outdir, cookiefile])
+# args:
+#   boardurl - The url of board on trello.com
+#   outdir - The output directory
+#   cookiefile - The file with a value for the cookie HTTP-header
+# return:
+#   0 - If success
+#   1 - If any error
 main()
 {
     local url
