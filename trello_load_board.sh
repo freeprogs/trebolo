@@ -143,6 +143,16 @@ load_trello_board_json()
     return 0
 }
 
+# Download the board file from Trello to the given path, using the
+# value for cookie HTTP-header
+# raw_download_board(boardurl, outpath, cookievalue)
+# args:
+#   boardurl - The url of board on trello.com
+#   outpath - The path for the loaded board file
+#   cookiefile - The text value for the cookie HTTP-header
+# return:
+#   0 - If success
+#   1 - If any error
 raw_download_board()
 {
     local url=$1
