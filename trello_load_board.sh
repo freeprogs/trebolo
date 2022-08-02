@@ -195,6 +195,18 @@ load_trello_board_attachments()
     return 0
 }
 
+# Get attachments information from JSON-file of a Trello board and
+# save urls and filenames with their card ids and attachment ids to an
+# output file
+# make_attachments_data(boardfile, outfile, outdir)
+# args:
+#   boardfile - The JSON-file of the board from trello.com
+#   outfile - The output file with data where there are url and
+#             filename on every line
+#   outdir - The output directory for the output file
+# return:
+#   0 - If success
+#   1 - If any error
 make_attachments_data()
 {
     local ifname=$1
