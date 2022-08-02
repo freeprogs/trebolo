@@ -110,7 +110,8 @@ make_output_directory()
 {
     local dname=$1
 
-    mkdir "$dname" 2>/dev/null
+    mkdir "$dname" 2>/dev/null || return 1
+    return 0
 }
 
 load_trello_board_json()
