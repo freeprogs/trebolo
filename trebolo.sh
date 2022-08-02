@@ -61,6 +61,18 @@ help_info()
     } >&2
 }
 
+
+# Print program version information to stderr
+# print_version()
+print_version()
+{
+    {
+        echo "trebolo v1.0.0"
+        echo "Copyright (C) 2022, Slava <freeprogs.feedback@yandex.ru>"
+        echo "License: GNU GPLv3"
+    } >&2
+}
+
 # Load the Trello board by the board url to the given directory, using
 # the cookie file
 # load_trello_board(boardurl, outdir, cookiefile)
@@ -363,6 +375,10 @@ main()
       1)
         [ "$1" = "--help" ] && {
             help_info
+            return 1
+        }
+        [ "$1" = "--version" ] && {
+            print_version
             return 1
         }
         ;;
