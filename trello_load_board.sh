@@ -304,6 +304,16 @@ attachments_data_get_field()
     awk '{print $'"$field_number"';}'
 }
 
+# Download the attachment file from Trello to the given path, using the
+# value for cookie HTTP-header
+# raw_download_attachment(attachmenturl, outpath, cookievalue)
+# args:
+#   attachmenturl - The url of attachment on trello.com
+#   outpath - The path for the loaded attachment file
+#   cookiefile - The text value for the cookie HTTP-header
+# return:
+#   0 - If success
+#   1 - If any error
 raw_download_attachment()
 {
     local url=$1
