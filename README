@@ -1,0 +1,5 @@
+
+trebolo v1.0.0
+
+This script saves the Trello board with attachments to the given
+directory, using the cookie file.
