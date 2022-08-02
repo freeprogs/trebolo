@@ -61,6 +61,16 @@ help_info()
     } >&2
 }
 
+# Load the Trello board by the board url to the given directory, using
+# the cookie file
+# load_trello_board(boardurl, outdir, cookiefile)
+# args:
+#   boardurl - The url of board on trello.com
+#   outdir - The output directory
+#   cookiefile - The file with a value for the cookie HTTP-header
+# return:
+#   0 - If success
+#   1 - If any error
 load_trello_board()
 {
     local url=$1
