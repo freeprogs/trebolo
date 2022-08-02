@@ -289,6 +289,14 @@ load_from_attachments_data()
     return 0
 }
 
+# Get a field by a number of field from stdin
+# attachments_data_get_field(fieldnumber)
+# stdin:
+#   dataline - A line with fields (url, filename)
+# args:
+#   fieldnumber - The number of field to get
+# stdout:
+#   field - The field with a given field number
 attachments_data_get_field()
 {
     local field_number=$1
